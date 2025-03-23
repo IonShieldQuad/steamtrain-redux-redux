@@ -29,6 +29,13 @@ local function on_tick(event)
 				v.wheels = WheelControl:apply_wheels(v.locomotive)
 			end
 			WheelControl:update_wheel_position(v.locomotive, v.wheels)
+		else
+			if v.wheels and v.wheels.base and v.wheels.base.valid then
+				v.wheels.base.destroy()
+			end
+			if v.wheels and v.wheels.elevated and v.wheels.elevated.valid then
+				v.wheels.elevated.destroy()
+			end
 		end
 	end
 end
@@ -48,7 +55,8 @@ local function on_build(event)
 		local force = game.forces.neutral
 		if (event.player_index) then
 			local player = game.get_player(event.player_index)
-			force = player.force
+---@diagnostic disable-next-line: cast-local-type
+			force = player and player.force or force
 		end
 		if (event.robot) then
 			force = event.robot.force
@@ -123,7 +131,7 @@ end
 
 script.on_configuration_changed(on_init)
 script.on_init(on_init)
-script.on_nth_tick(CLEANUP_UPDATE_TICK, cleanup)
+--script.on_nth_tick(CLEANUP_UPDATE_TICK, cleanup)
 script.on_event(defines.events.on_tick, on_tick)
 script.on_event(defines.events.on_built_entity, on_build)
 script.on_event(defines.events.on_robot_built_entity, on_build)
