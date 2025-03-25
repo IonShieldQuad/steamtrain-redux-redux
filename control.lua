@@ -22,8 +22,15 @@ local function is_locomotive_valid(i, v)
 end
 
 local function on_tick(event)
-	for i = 1 + event.tick % WHEEL_UPDATE_TICK, #storage.locomotives, WHEEL_UPDATE_TICK do
+	if event.tick % WHEEL_UPDATE_TICK > 0 then
+		return
+	end
+	for i = 1, #storage.locomotives, 1 do
 		local v = storage.locomotives[i]
+		if not v then
+			return
+		end
+
 		if is_locomotive_valid(i, v) then
 			if not v.wheels or not v.wheels.base.valid or not v.wheels.elevated.valid then
 				v.wheels = WheelControl:apply_wheels(v.locomotive)
