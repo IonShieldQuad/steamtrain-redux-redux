@@ -205,7 +205,7 @@ steam_locomotive.wheels.rotated.filenames = {
 	SPRITE_PATH .. "entity/train-wheel/rotated/train-wheel-8.png"
 }
 
-if mods["elevated-rails"] then
+if mods["elevated-rails"] and steam_locomotive.wheels.sloped then
 	steam_locomotive.wheels.sloped.filenames = {
 		SPRITE_PATH .. "entity/train-wheel/sloped/train-wheel-sloped-1.png",
 		SPRITE_PATH .. "entity/train-wheel/sloped/train-wheel-sloped-2.png",
